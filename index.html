@@ -14,18 +14,15 @@ html, body {
     font-family: 'Comic Sans MS', cursive;
 }
 
-/* 🔒 FIXED BACKGROUND LAYER */
+/* Fixed background */
 .background {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top, #ffd6e8, #ff9fcf);
+    inset: 0;
+    background: linear-gradient(180deg, #ffe4f0, #ffb3d9);
     z-index: 0;
 }
 
-/* CONTENT ABOVE BACKGROUND */
+/* Content */
 .container {
     position: relative;
     width: 100%;
@@ -33,8 +30,137 @@ html, body {
     z-index: 2;
 }
 
-/* Message */
+/* BIG MESSAGE */
 .message {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    text-align: center;
+    font-size: 42px;
+    font-weight: 900;
+    color: #c2185b;
+    text-shadow: 0 0 12px #ff8fb1;
+    animation: floatText 3s ease-in-out infinite;
+}
+
+.message span {
+    display: block;
+    font-size: 48px;
+    color: #ad1457;
+}
+
+/* Teddy */
+.teddy {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 190px;
+    animation: bounce 2.5s ease-in-out infinite;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    color: #ff3366;
+    animation: float 6s infinite ease-in-out;
+}
+
+/* Tap */
+.tap {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    opacity: 0.9;
+}
+
+/* Animations */
+@keyframes bounce {
+    0%,100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -54%) scale(1.05); }
+}
+
+@keyframes floatText {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    20% { opacity: 1; }
+    100% {
+        transform: translateY(-700px);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+    <div class="message">
+        Happy Teddy Day 🧸
+        <span>bubbieee 💖 imy yrm</span>
+    </div>
+
+    <div class="teddy">🧸</div>
+
+    <div class="tap">Tap anywhere 💕</div>
+</div>
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Create floating hearts
+for (let i = 0; i < 25; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.innerHTML = '❤';
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (18 + Math.random() * 24) + 'px';
+    h.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(h);
+}
+
+// Tap → music + mini teddies
+let started = false;
+
+document.body.addEventListener('click', () => {
+    if (started) return;
+    started = true;
+
+    document.getElementById('music').play();
+    document.querySelector('.tap').style.display = 'none';
+
+    const burst = setInterval(() => {
+        const t = document.createElement('div');
+        t.innerHTML = '🧸';
+        t.style.position = 'absolute';
+        t.style.fontSize = '32px';
+        t.style.left = Math.random() * 100 + 'vw';
+        t.style.top = Math.random() * 100 + 'vh';
+        t.style.animation = 'float 2s ease-out forwards';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2000);
+    }, 300);
+
+    setTimeout(() => clearInterval(burst), 5000);
+});
+</script>
+
+</body>
+</html>.message {
     position: absolute;
     top: 20px;
     width: 100%;
